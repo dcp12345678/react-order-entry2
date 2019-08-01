@@ -6,18 +6,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-class AlertDialog extends React.Component {
+class YesNoDialog extends React.Component {
 
   constructor(props) {
     super(props);
   }
   render() {
-    if (this.props.isAlertDialogOpen()) {
+    if (this.props.isYesNoDialogOpen()) {
       return (
         <div>
           <Dialog
             open="true"
-            onClose={this.props.closeAlertDialog}
+            onClose={this.props.closeYesNoDialog}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -28,8 +28,11 @@ class AlertDialog extends React.Component {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.props.closeAlertDialog} color="primary">
-                OK
+              <Button onClick={() => this.props.closeYesNoDialog("yes")} color="primary">
+                Yes
+              </Button>
+              <Button onClick={() => this.props.closeYesNoDialog("no")} color="primary">
+                No
               </Button>
             </DialogActions>
           </Dialog>
@@ -40,4 +43,4 @@ class AlertDialog extends React.Component {
   }
 }
 
-export default AlertDialog;
+export default YesNoDialog;

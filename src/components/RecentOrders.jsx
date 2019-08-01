@@ -14,6 +14,7 @@ import Helper from '../util/Helper';
 import EditIcon from '@material-ui/icons/EditTwoTone';
 import IconButton from '@material-ui/core/IconButton';
 import TablePagination from '@material-ui/core/TablePagination';
+import { withRouter, Link } from "react-router-dom";
 
 const ordersApi = new OrdersApi();
 
@@ -32,6 +33,7 @@ class RecentOrders extends Component {
 
   constructor(props) {
     super(props);
+    //alert(`this.props.history = ${JSON.stringify(this.props.history)}`);
 
     this.state = {
       orders: [],
@@ -46,14 +48,9 @@ class RecentOrders extends Component {
     this.getOrders();
   }
 
-  setErrorMessage = () => {
-  }
-
   getOrders = async () => {
     try {
-      debugger;
       let res = await ordersApi.getOrdersForUser(this.props.userDetails.userId);
-      debugger;
       const orders = JSON.parse(res.text);
       // alert('orders = ' + JSON.stringify(orders));
       this.setState({ orders });
@@ -63,7 +60,7 @@ class RecentOrders extends Component {
   }
 
   sliceOrders = () => {
-    const {page, rowsPerPage } = this.state;
+    const { page, rowsPerPage } = this.state;
     return this.state.orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   }
 
@@ -74,6 +71,12 @@ class RecentOrders extends Component {
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
+
+  handleEditOrder = (orderId) => {
+    alert(`${orderId}`);
+    debugger;
+    this.props.history.push("/editOrder/orderId");
+  }
 
   render() {
 
@@ -86,7 +89,7 @@ class RecentOrders extends Component {
             closeAlertDialog={
               () => this.setState({ errorMessage: "" })
             }
-            isAlertDialogOpen={this.errorMessage !== ""}
+            isAlertDialogOpen={() => this.errorMessage !== ""}
             message={`${this.state.errorMessage}`}>
           </AlertDialog>
         </div>
@@ -115,9 +118,11 @@ class RecentOrders extends Component {
                 {this.sliceOrders().map(row => (
                   <TableRow hover key={row.id}>
                     <TableCell align="left">
-                      <IconButton aria-label="Edit">
-                        <EditIcon />
-                      </IconButton>
+                      <Link to={`/editOrder/${row.id}`}>
+                        <IconButton aria-label="Edit" >
+                          <EditIcon />
+                        </IconButton>
+                      </Link>
                     </TableCell>
                     <TableCell align="left" component="th" scope="row">
                       {row.id}
@@ -152,7 +157,6 @@ class RecentOrders extends Component {
 }
 
 function mapStateToProps(state) {
-  debugger;
   const ret = {
     userDetails: state.userDetails,
   }
@@ -164,4 +168,5 @@ RecentOrders.propTypes = {
 };
 
 let comp = connect(mapStateToProps)(RecentOrders);
-export default withStyles(styles)(comp);
+let comp2 = withStyles(styles)(comp);
+export default withRouter(comp2);

@@ -1,3 +1,6 @@
+import React from 'react';
+import _ from 'lodash';
+
 class Helper {
 
   static isNullOrWhitespace(input) {
@@ -27,6 +30,29 @@ class Helper {
     }
 
     return [year, month, day].join('-');
+  }
+
+  static buildOptionsForSelectList(optionList, selectedOptionId) {
+    const optId = parseInt(selectedOptionId, 10);
+    const options = [];
+    if (optId === -1) {
+      options.push(<option value="-1" selected>--Please Select--</option>);
+    } else {
+      options.push(<option value="-1">--Please Select--</option>);
+    }
+
+    const optionsToAdd = _.map(optionList, (option) => {
+      let o;
+      if (option.id === optId) {
+        o = (<option value={option.id} selected>{option.name}</option>);
+      } else {
+        o = (<option value={option.id}>{option.name}</option>);
+      }
+      return o;
+    });
+    options.push(...optionsToAdd);
+
+    return options;
   }
 
 }

@@ -15,11 +15,9 @@ const rootReducer = createReducer(initialState, {
     state.array.push(action.payload);
   },
   "SET_IS_LOGGED_IN": (state, action) => {
-    debugger;
     state.isLoggedIn = action.payload;
   },
   "SET_USER_DETAILS": (state, action) => {
-    debugger;
     state.userDetails = action.payload
   }
 });

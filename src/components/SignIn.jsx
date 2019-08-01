@@ -84,7 +84,6 @@ class SignIn extends Component {
   }
 
   doLogin = async (event) => {
-    alert(`this.props.history = ${JSON.stringify(this.props.history)}`);
     event.preventDefault();
     this.setState({ isLoginInProgress: true });
     if (Helper.isNullOrWhitespace(this.state.loginId) || Helper.isNullOrWhitespace(this.state.password)) {
@@ -96,7 +95,6 @@ class SignIn extends Component {
     } else {
       try {
         let loginResult = await authApi.login(this.state.loginId, this.state.password);
-        debugger;
         const obj = JSON.parse(loginResult.text);
         if (obj.result === 'successful login') {
           Helper.setSessionStorageObject('userDetails', { userId: obj.userId, sessionId: obj.sessionId });
@@ -120,7 +118,6 @@ class SignIn extends Component {
           });
         }
       } catch (err) {
-        debugger;
         alert(`err = ${err}`);
         this.setState({
           isAlertDialogOpen: true,
@@ -135,7 +132,6 @@ class SignIn extends Component {
 
     let errDialog;
     if (this.isAlertDialogOpen()) {
-      debugger;
       errDialog = (
         <div>
           <AlertDialog title="Error"
@@ -178,7 +174,7 @@ class SignIn extends Component {
             className={classes.submit}
           >
             Sign in
-            </Button>
+          </Button>
           {errDialog}
           {this.state.isLoginInProgress && <CircularProgress style={{ marginTop: 10 }} size={40} />}
         </Paper>

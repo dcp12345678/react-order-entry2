@@ -5,7 +5,6 @@ import Config from '../config';
 class LookupApi {
 
   binaryParser = (res, callback) => {
-    debugger;
     res.setEncoding('binary');
     res.data = '';
     res.on('data', function (chunk) {
